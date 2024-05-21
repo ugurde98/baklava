@@ -1,11 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { WebView } from 'react-native-webview';
+import Constants from 'expo-constants';
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+
+  const [isLoading, setIsLoading] = useState(true); 
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  } ,[]);
+
+if(isLoading){
+
+  return(
+    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+      <ActivityIndicator size="large" color="red"/>
+      <Image source={require('./assets/splash.png')} style={{width:200,height:200}}/>
+    </View>
+  )
+}
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{flex:1,backgroundColor:'#eae0cd'}}>
+    <WebView
+      style={styles.container}
+      source={{ uri: 'http://ayintapbaklava.com.tr/' }}
+    />
     </View>
   );
 }
@@ -13,8 +36,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: Constants.statusBarHeight,
   },
 });
